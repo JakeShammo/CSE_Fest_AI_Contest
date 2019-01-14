@@ -6,7 +6,7 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import math
 import numpy as np
-
+import subprocess
 
 vertices = (
     (1.5, -1.5, -1.5),
@@ -79,6 +79,24 @@ def draw_grid():
     glPopMatrix()
 
 
+def draw_move(selected_cube):
+    glPushMatrix()
+    glTranslatef((selected_cube[0] - 4) * 3, (selected_cube[1] - 4) * 3, 0)
+    glBegin(GL_QUADS)
+    glVertex3f(1.5, 1.5, -1.5)
+    glVertex3f(-1.5, 1.5, -1.5)
+    glVertex3f(-1.5, -1.5, -1.5)
+    glVertex3f(1.5, -1.5, -1.5)
+    glEnd()
+    glPopMatrix()
+
+
+def draw_reaction(cubes):
+    glColor3f(1, .8, .1)
+    for cube in cubes:
+        draw_move(cube)
+
+
 def draw_sphere(radius, is_red):
     points = np.zeros((105, 105, 3))
     stack = 20
@@ -113,6 +131,7 @@ def draw_spheres():
             if grid[i][j] != 'No':
                 glPushMatrix()
                 glTranslatef((i - 4)*3, (j - 4)*3, 0)
+
                 glRotatef(angles[i][j], 0, 0, 1)
                 angles[i][j] = (angles[i][j] + 5) % 360
 
@@ -148,7 +167,7 @@ def draw_spheres():
                     draw_sphere(.6, sphere_color[grid[i][j][0]])
                     glPopMatrix()
 
-                elif grid[i][j][1] == '4':
+                elif grid[i][j][1] >= '4':
 
                     glPushMatrix()
                     glTranslatef(-.3, -.2, 0)
@@ -169,24 +188,11 @@ def draw_spheres():
                     glTranslatef(-.3, .2, 0)
                     draw_sphere(.6, sphere_color[grid[i][j][0]])
                     glPopMatrix()
-
                 glPopMatrix()
 
 
 grid = None
 angles = None
-
-
-def read_move():
-    with open("shared_file.txt") as f:
-        lines = f.readlines()
-    f.close()
-    if len(lines)<2:
-        return None
-    if lines[0].strip('\n') == '0':
-        if lines[0].strip('\n') == '0':
-            return lines[1].strip('\n').split()
-    return None
 
 
 def check_validity(values):
@@ -195,9 +201,11 @@ def check_validity(values):
     if len(values) != 2:
         invalid_move = True
         return False
+
     if not values[0].isdigit() or not values[1].isdigit():
         invalid_move = True
         return False
+
     values = [int(value) for value in values]
     if values[0] >= 8 or values[1] >= 8:
         invalid_move = True
@@ -252,15 +260,18 @@ def reaction(selected_cube):
             update_grid(temp)
 
 
-def write_grid():
-    global cur_player, grid
-    str_to_write = str(cur_player+1) + '\n'
-    for i in np.flip(grid.T, 0):
+def write_grid_2():
+    global cur_player, grid, p1, p2
+    # str_to_write = players[cur_player] + '\n'
+    str_to_write = ""
+    for i in grid:
         for j in i:
             str_to_write += j + " "
         str_to_write += '\n'
-    with open("shared_file.txt", 'w') as f:
-        f.write(str_to_write[:-1])
+    if cur_player == 0:
+        print(str_to_write, file=p1.stdin, flush=True, end="")
+    else:
+        print(str_to_write, file=p2.stdin, flush=True, end="")
 
 
 def check_winner():
@@ -289,10 +300,15 @@ grid_updated = None
 move_count = None
 move_read = None
 invalid_move = None
+move_speed = None
+is_over = False
+p1 = None
+p2 = None
 
 
 def init():
-    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move
+    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed, p1, \
+            p2
     pygame.init()
     display = (800, 800)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -305,45 +321,61 @@ def init():
     move_count = 0
     move_read = False
     invalid_move = False
-    write_grid()
+    move_speed = 100
+    p1 = subprocess.Popen(['python3', 'player_code.py', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+                          universal_newlines=True, bufsize=1)
+    p2 = subprocess.Popen(['python3', 'player_code.py', 'G'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+                          universal_newlines=True, bufsize=1)
+    write_grid_2()
 
 
 def display_grid():
-    global grid, cur_player, players, cubes_to_update, grid_updated, move_count, move_read, invalid_move
+    global is_over, grid, cur_player, players, cubes_to_update, grid_updated, move_count, move_read, invalid_move, \
+        move_count
     glColor3f(1, 0, 0)
     glTranslatef(0.0, 0.0, -45)
-
+    pygame.time.wait(10000)
     # cur_player = 0
     while True:
-        if len(cubes_to_update) > 0:
+
+        if not is_over and len(cubes_to_update) > 0:
+            draw_reaction(cubes_to_update)
             temp = cubes_to_update.copy()
             cubes_to_update.clear()
             for update in temp:
                 reaction(update)
-            pygame.time.wait(1500)
+            pygame.time.wait(move_speed)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        selected_cube = read_move()
-        if not move_read and selected_cube is not None:
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        if not is_over and not move_read:
+            if cur_player == 0:
+                selected_cube = p1.stdout.readline().strip('\n').split(" ")
+            else:
+                selected_cube = p2.stdout.readline().strip('\n').split(" ")
             move_read = True
             move_count += 1
             if check_validity(selected_cube):
                 selected_cube = [int(i) for i in selected_cube]
                 update_grid(selected_cube)
-                pygame.time.wait(1500)
+                pygame.time.wait(move_speed)
+                glColor3f(.6, .6, .6)
+                draw_move(selected_cube)
             # else:
             # invalid move
-        if grid_updated and len(cubes_to_update) == 0:
+        if not is_over:
+            draw_reaction(cubes_to_update)
+        if not is_over and grid_updated and len(cubes_to_update) == 0:
             cur_player = 1 - cur_player
-            write_grid()
+            write_grid_2()
             grid_updated = False
             move_read = False
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         draw_text((-5, 5.0, 30.0), "CHAIN REACTION", 32, (120, 120, 220, 255))
         draw_text((-5, 5.5, 30.0), "CSE Fest 2019 - AI Contest", 24, (120, 120, 220, 255))
 
@@ -356,10 +388,11 @@ def display_grid():
         draw_spheres()
         if invalid_move:
             draw_text((-4, 1, 30.0), "Invalid Move by Player" + str(cur_player+1), 64, (120, 120, 220, 255))
-            pygame.time.wait(100000)
+            is_over = True
+
         if check_winner() != -1:
             draw_text((-2.5, 0, 30.0), "Player " + str(check_winner()+1)+" Wins", 64, (120, 120, 220, 255))
-            pygame.time.wait(100000)
+            is_over = True
         pygame.display.flip()
         pygame.time.wait(10)
 

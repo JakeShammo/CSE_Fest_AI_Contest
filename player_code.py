@@ -1,19 +1,29 @@
 import time
 import random
-import numpy as np
+import sys
+
+grid_size = 8
 
 
-def read_file(player_no):
+def read_file(player_color):
     with open("shared_file.txt") as f:
         lines = f.readlines()
     if len(lines) == 0:
         return None
-    if lines[0].strip('\n') == str(player_no):
+    if lines[0].strip('\n') == str(player_color):
         temp_grid = []
         for line in lines[1:]:
             temp_grid.append(line.strip('\n').split(" ")[:-1])
-        return np.transpose(np.flip(temp_grid, 0)).tolist()
+        return temp_grid
     return None
+
+
+def read_file_2():
+    temp_grid = []
+    for i in range(grid_size):
+        line = input().split(' ')
+        temp_grid.append(line[:-1])
+    return temp_grid
 
 
 def select_move(grid, player_color):
@@ -31,16 +41,17 @@ def write_move(move):
 
 
 def main():
-    player_no = 1
-    player_color = 'R'
+    player_color = sys.argv[1]
     while True:
         while True:
-            grid = read_file(player_no)
+            # grid = read_file(player_color)
+            grid = read_file_2()
             if grid is not None:
                 break
             time.sleep(.01)
         move = select_move(grid, player_color)
-        write_move(move)
+        # write_move(move)
+        print(move[0], move[1])
 
 
 if __name__ == "__main__":
