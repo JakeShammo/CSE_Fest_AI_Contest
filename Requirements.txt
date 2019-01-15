@@ -1,8 +1,4 @@
 
-python 3.x
 numpy
-*PyOpenGl 3.x
-*Pygame 1.9.x
-
-
-*not needed for player codes
+PyOpenGl>=3.0
+Pygame>=1.9.0
