@@ -42,6 +42,10 @@ def write_move(move):
 
 def main():
     player_color = sys.argv[1]
+    
+    is_start = ""
+    while is_start != "start":
+        is_start = input()
     while True:
         while True:
             # grid = read_file(player_color)
