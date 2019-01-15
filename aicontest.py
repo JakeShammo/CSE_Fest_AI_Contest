@@ -323,7 +323,7 @@ def init():
     move_count = 0
     move_read = False
     invalid_move = False
-    move_speed = sys.argv[1]
+    move_speed = int(sys.argv[1])
     p1 = subprocess.Popen(['python3', 'player_code.py', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                           universal_newlines=True, bufsize=1)
     p2 = subprocess.Popen(['python3', 'player_code.py', 'G'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
