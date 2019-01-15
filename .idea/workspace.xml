@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c8efb4f7-9513-4827-ab90-d919482464d4" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/aicontest_file.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/player_code_file.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aicontest.py" afterPath="$PROJECT_DIR$/aicontest.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/player_code.py" afterPath="$PROJECT_DIR$/player_code.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shared_file.txt" afterPath="$PROJECT_DIR$/shared_file.txt" />
@@ -15,20 +18,44 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/AIContest$player_2.coverage" NAME="player_2 Coverage Results" MODIFIED="1547477490698" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AIContest$player_1.coverage" NAME="player_1 Coverage Results" MODIFIED="1547566178626" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AIContest$aicontest.coverage" NAME="aicontest Coverage Results" MODIFIED="1547566405334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AIContest$player_1.coverage" NAME="player_1 Coverage Results" MODIFIED="1547567671647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AIContest$aicontest.coverage" NAME="aicontest_file Coverage Results" MODIFIED="1547567677955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AIContest$master.coverage" NAME="master Coverage Results" MODIFIED="1547482395857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AIContest$p2.coverage" NAME="p2 Coverage Results" MODIFIED="1547566175981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AIContest$p2.coverage" NAME="p2 Coverage Results" MODIFIED="1547567674141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="aicontest.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/aicontest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="400" column="9" lean-forward="false" selection-start-line="400" selection-start-column="9" selection-end-line="400" selection-end-column="9" />
+            <state relative-caret-position="275">
+              <caret line="330" column="0" lean-forward="true" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="aicontest_file.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/aicontest_file.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="257">
+              <caret line="401" column="18" lean-forward="false" selection-start-line="401" selection-start-column="18" selection-end-line="401" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="player_code_file.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player_code_file.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="48" column="10" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -37,8 +64,8 @@
       <file leaf-file-name="player_code.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player_code.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+            <state relative-caret-position="271">
+              <caret line="57" column="10" lean-forward="false" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -83,6 +110,8 @@
         <option value="$PROJECT_DIR$/slave.py" />
         <option value="$PROJECT_DIR$/master.py" />
         <option value="$PROJECT_DIR$/player_code.py" />
+        <option value="$PROJECT_DIR$/aicontest_file.py" />
+        <option value="$PROJECT_DIR$/player_code_file.py" />
         <option value="$PROJECT_DIR$/aicontest.py" />
       </list>
     </option>
@@ -132,7 +161,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/player_code_file.py" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -151,8 +180,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.aicontest">
-    <configuration name="aicontest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.aicontest_file">
+    <configuration name="aicontest_file" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -165,7 +194,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="AIContest" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aicontest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aicontest_file.py" />
       <option name="PARAMETERS" value="100" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -201,7 +230,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="AIContest" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/player_code.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/player_code_file.py" />
       <option name="PARAMETERS" value="G" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -219,7 +248,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="AIContest" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/player_code.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/player_code_file.py" />
       <option name="PARAMETERS" value="R" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -265,12 +294,12 @@
       <item index="1" class="java.lang.String" itemvalue="Python.test" />
       <item index="2" class="java.lang.String" itemvalue="Python.player_1" />
       <item index="3" class="java.lang.String" itemvalue="Python.player_2" />
-      <item index="4" class="java.lang.String" itemvalue="Python.aicontest" />
+      <item index="4" class="java.lang.String" itemvalue="Python.aicontest_file" />
       <item index="5" class="java.lang.String" itemvalue="Python.master" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.aicontest" />
+        <item index="0" class="java.lang.String" itemvalue="Python.aicontest_file" />
         <item index="1" class="java.lang.String" itemvalue="Python.player_1" />
         <item index="2" class="java.lang.String" itemvalue="Python.master" />
         <item index="3" class="java.lang.String" itemvalue="Python.test" />
@@ -448,18 +477,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player_code.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+        <state relative-caret-position="271">
+          <caret line="57" column="10" lean-forward="false" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/player_code_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="48" column="10" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aicontest_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="401" column="18" lean-forward="false" selection-start-line="401" selection-start-column="18" selection-end-line="401" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/aicontest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="400" column="9" lean-forward="false" selection-start-line="400" selection-start-column="9" selection-end-line="400" selection-end-column="9" />
+        <state relative-caret-position="275">
+          <caret line="330" column="0" lean-forward="true" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

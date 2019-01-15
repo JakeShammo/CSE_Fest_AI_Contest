@@ -18,14 +18,6 @@ def read_file(player_color):
     return None
 
 
-def read_file_2():
-    temp_grid = []
-    for i in range(grid_size):
-        line = input().split(' ')
-        temp_grid.append(line[:-1])
-    return temp_grid
-
-
 def select_move(grid, player_color):
     while True:
         x = random.randint(0, 7)
@@ -45,13 +37,12 @@ def main():
     while True:
         while True:
             # grid = read_file(player_color)
-            grid = read_file_2()
+            grid = read_file(player_color)
             if grid is not None:
                 break
             time.sleep(.01)
         move = select_move(grid, player_color)
-        # write_move(move)
-        print(move[0], move[1])
+        write_move(move)
 
 
 if __name__ == "__main__":

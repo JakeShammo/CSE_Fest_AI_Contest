@@ -6,7 +6,6 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import math
 import numpy as np
-import subprocess
 import sys
 
 
@@ -197,9 +196,22 @@ grid = None
 angles = None
 
 
+def read_move():
+    with open("shared_file.txt") as f:
+        lines = f.readlines()
+    f.close()
+    if len(lines)<2:
+        return None
+    if lines[0].strip('\n') == '0':
+        if lines[0].strip('\n') == '0':
+            return lines[1].strip('\n').split()
+    return None
+
+
 def check_validity(values):
     global cur_player, players, invalid_move
 
+    print(values)
     if len(values) != 2:
         invalid_move = True
         return False
@@ -262,18 +274,16 @@ def reaction(selected_cube):
             update_grid(temp)
 
 
-def write_grid_2():
-    global cur_player, grid, p1, p2
-    # str_to_write = players[cur_player] + '\n'
-    str_to_write = ""
+def write_grid():
+    global cur_player, grid
+    str_to_write = players[cur_player] + '\n'
     for i in grid:
         for j in i:
             str_to_write += j + " "
         str_to_write += '\n'
-    if cur_player == 0:
-        print(str_to_write, file=p1.stdin, flush=True, end="")
-    else:
-        print(str_to_write, file=p2.stdin, flush=True, end="")
+    with open("shared_file.txt", 'w') as f:
+        f.write(str_to_write[:-1])
+
 
 
 def check_winner():
@@ -304,13 +314,10 @@ move_read = None
 invalid_move = None
 move_speed = None
 is_over = False
-p1 = None
-p2 = None
 
 
 def init():
-    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed, p1, \
-            p2
+    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed
     pygame.init()
     display = (800, 800)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -323,20 +330,15 @@ def init():
     move_count = 0
     move_read = False
     invalid_move = False
-    move_speed = sys.argv[1]
-    p1 = subprocess.Popen(['python3', 'player_code.py', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
-                          universal_newlines=True, bufsize=1)
-    p2 = subprocess.Popen(['python3', 'player_code.py', 'G'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
-                          universal_newlines=True, bufsize=1)
-
-    write_grid_2()
+    move_speed = int(sys.argv[1])
 
 
 def display_grid():
     global is_over, grid, cur_player, players, cubes_to_update, grid_updated, move_count, move_read, invalid_move, \
-        move_count
+        move_count, move_speed
     glColor3f(1, 0, 0)
     glTranslatef(0.0, 0.0, -45)
+
     # cur_player = 0
     while True:
 
@@ -354,12 +356,8 @@ def display_grid():
                 quit()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
-        if not is_over and not move_read:
-            if cur_player == 0:
-                selected_cube = p1.stdout.readline().strip('\n').split(" ")
-            else:
-                selected_cube = p2.stdout.readline().strip('\n').split(" ")
+        selected_cube = read_move()
+        if not is_over and not move_read and selected_cube is not None:
             move_read = True
             move_count += 1
             if check_validity(selected_cube):
@@ -374,7 +372,7 @@ def display_grid():
             draw_reaction(cubes_to_update)
         if not is_over and grid_updated and len(cubes_to_update) == 0:
             cur_player = 1 - cur_player
-            write_grid_2()
+            write_grid()
             grid_updated = False
             move_read = False
 
