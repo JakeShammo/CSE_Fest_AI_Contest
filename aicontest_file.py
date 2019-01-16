@@ -331,7 +331,7 @@ def init():
     move_read = False
     invalid_move = False
     move_speed = int(sys.argv[1])
-
+    write_grid()
 
 def display_grid():
     global is_over, grid, cur_player, players, cubes_to_update, grid_updated, move_count, move_read, invalid_move, \
