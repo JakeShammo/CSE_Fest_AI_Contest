@@ -294,9 +294,9 @@ def check_winner():
         return -1
     green = False
     red = False
-    if 'G1' in grid or 'G2' in grid or 'G3' in grid:
+    if 'G1' in grid or 'G2' in grid or 'G3' in grid or 'G4' in grid or 'G5' in grid:
         green = True
-    if 'R1' in grid or 'R2' in grid or 'R3' in grid:
+    if 'R1' in grid or 'R2' in grid or 'R3' in grid or 'R4' in grid or 'R5' in grid:
         red = True
     if green and not red:
         return 1
@@ -390,7 +390,7 @@ def display_grid():
             draw_text((-4, 1, 30.0), "Invalid Move by Player" + str(cur_player+1), 64, (120, 120, 220, 255))
             is_over = True
 
-        if check_winner() == cur_player:
+        if check_winner() != -1:
             draw_text((-2.5, 0, 30.0), "Player " + str(check_winner()+1)+" Wins", 64, (120, 120, 220, 255))
             is_over = True
         pygame.display.flip()
