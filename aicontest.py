@@ -392,7 +392,7 @@ def display_grid():
         if invalid_move:
             draw_text((-4, 1, 30.0), "Invalid Move by Player" + str(cur_player+1), 64, (120, 120, 220, 255))
             is_over = True
-        if check_winner() == cur_player:
+        if check_winner() != -1:
             draw_text((-2.5, 0, 30.0), "Player " + str(check_winner()+1)+" Wins", 64, (120, 120, 220, 255))
             is_over = True
            
