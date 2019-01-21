@@ -366,8 +366,8 @@ def display_grid():
                 pygame.time.wait(move_speed)
                 glColor3f(.6, .6, .6)
                 draw_move(selected_cube)
-            # else:
-            # invalid move
+            else:
+                invalid move
         if not is_over:
             draw_reaction(cubes_to_update)
         if not is_over and grid_updated and len(cubes_to_update) == 0:
