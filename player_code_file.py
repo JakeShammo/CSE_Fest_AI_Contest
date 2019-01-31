@@ -23,8 +23,7 @@ def select_move(grid, player_color):
         x = random.randint(0, 7)
         y = random.randint(0, 7)
         if grid[x][y] == 'No' or grid[x][y][0] == player_color:
-            return x, y
-
+            return -1, -1
 
 def write_move(move):
     str_to_write = '0\n' + str(move[0]) + " " + str(move[1])

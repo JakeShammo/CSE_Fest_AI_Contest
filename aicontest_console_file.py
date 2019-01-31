@@ -8,7 +8,7 @@ import math
 import numpy as np
 import subprocess
 import sys
-
+from time import time
 
 vertices = (
     (1.5, -1.5, -1.5),
@@ -294,13 +294,14 @@ def write_grid_2():
         for j in i:
             str_to_write += j + " "
         str_to_write += '\n'
-    if cur_player == 0:
-        print(str_to_write, file=p1.stdin, flush=True, end="")
+    print(str_to_write, file=p1.stdin, flush=True, end="")
 
 
 def check_winner():
-    global move_count, grid, invalid_move, cur_player
+    global move_count, grid, invalid_move, cur_player, too_much_time
     if invalid_move:
+        return 1 - cur_player
+    if too_much_time:
         return 1 - cur_player
     if move_count <= 2:
         return -1
@@ -325,12 +326,15 @@ move_count = None
 move_read = None
 invalid_move = None
 move_speed = None
-is_over = False
+is_over = None
+has_start = None
 p1 = None
+too_much_time = False
+start_time = 0
 
 
 def init():
-    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed, p1
+    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed, p1, start_time, is_over, has_start
     pygame.init()
     display = (800, 800)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -344,15 +348,18 @@ def init():
     move_read = False
     invalid_move = False
     move_speed = int(sys.argv[1])
-    p1 = subprocess.Popen(['python3', 'player_code.py', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+    p1 = subprocess.Popen(['java','playerOne', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                           universal_newlines=True, bufsize=1)
     print('start', file=p1.stdin, flush=True)
     write_grid_2()
+    start_time = time()
+    is_over = True
+    has_start = False
 
 
 def display_grid():
     global is_over, grid, cur_player, players, cubes_to_update, grid_updated, move_count, move_read, invalid_move, \
-        move_count
+        move_count, too_much_time, start_time, has_start
     glColor3f(1, 0, 0)
     glTranslatef(0.0, 0.0, -45)
     # cur_player = 0
@@ -370,14 +377,28 @@ def display_grid():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_SPACE:
+                    is_over = not is_over
+                    if move_count == 0:
+                        has_start = True
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         if not is_over and not move_read:
             if cur_player == 0:
                 selected_cube = p1.stdout.readline().strip('\n').split(" ")
             else:
+                while read_move() is None:
+                    continue
                 selected_cube = read_move()
+            end_time = time()
+            time_taken = end_time - start_time
+            hours, rest = divmod(time_taken,3600)
+            minutes, seconds = divmod(rest, 60)
+            print(seconds)
+            if seconds > 6:
+                is_over = True
+                too_much_time = True
             move_read = True
             move_count += 1
             if check_validity(selected_cube):
@@ -393,31 +414,44 @@ def display_grid():
         if not is_over and grid_updated and len(cubes_to_update) == 0:  
             cur_player = 1 - cur_player
             
-            if cur_player == 1:
-                print("Writing in file")
-                write_grid()
+            if cur_player == 0:
+                print("Writing in console")
+                write_grid_2()
             else:
-                print("Writing in Colsole")
-                write_grid_2() 
+                print("Writing in file")
+                write_grid() 
+            start_time = time()
             grid_updated = False
             move_read = False
 
         draw_text((-5, 5.0, 30.0), "CHAIN REACTION", 32, (120, 120, 220, 255))
         draw_text((-5, 5.5, 30.0), "CSE Fest 2019 - AI Contest", 24, (120, 120, 220, 255))
 
-        if cur_player == 0:
+        if cur_player == 1:
             draw_text((-5, 4, 30.0), "Player 1's move", 24, (250, 10, 10, 255))
         else:
             draw_text((-5, 4, 30.0), "Player 2's move", 24, (10, 250, 10, 255))
         glColor3f(1-cur_player, cur_player, 0)
         draw_grid()
         draw_spheres()
+        if not has_start:
+            draw_text((-2, 1, 30.0), "Semi Final 1", 56, (120, 120, 220, 255))
+            #draw_text((-3, 1, 30.0), "Third Place Playoff", 56, (120, 120, 220, 255))
+            #draw_text((-2, 1, 30.0), "THE FINAL", 56, (120, 120, 220, 255))
+
+            draw_text((-6, 0, 30.0), "Lonely_Bot vs Night_Before_Submission", 56, (120, 120, 220, 255))
+            #draw_text((-5, 0, 30.0), "Wasted_Potential vs Megatron747", 56, (120, 120, 220, 255))
+
         if invalid_move:
             draw_text((-4, 1, 30.0), "Invalid Move by Player" + str(cur_player+1), 64, (120, 120, 220, 255))
+            is_over = True
+        if too_much_time:
+            draw_text((-4.5, 1, 30.0), "Too much time taken by Player"  + str(cur_player+1), 64, (120, 120, 220, 255))
             is_over = True
         if check_winner() != -1:
             draw_text((-2.5, 0, 30.0), "Player " + str(check_winner()+1)+" Wins", 64, (120, 120, 220, 255))
             is_over = True
+            print(move_count)
            
         pygame.display.flip()
         pygame.time.wait(10)

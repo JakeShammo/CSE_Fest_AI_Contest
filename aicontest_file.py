@@ -7,7 +7,7 @@ from OpenGL.GLUT import *
 import math
 import numpy as np
 import sys
-
+from time import time
 
 vertices = (
     (1.5, -1.5, -1.5),
@@ -287,8 +287,10 @@ def write_grid():
 
 
 def check_winner():
-    global move_count, grid, invalid_move, cur_player
+    global move_count, grid, invalid_move, cur_player, too_much_time
     if invalid_move:
+        return 1 - cur_player
+    if too_much_time:
         return 1 - cur_player
     if move_count <= 2:
         return -1
@@ -313,11 +315,13 @@ move_count = None
 move_read = None
 invalid_move = None
 move_speed = None
-is_over = False
+is_over = None
+too_much_time = False
+start_time = 0
 
 
 def init():
-    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed
+    global grid, angles, cur_player, cubes_to_update, grid_updated, move_count, move_read, invalid_move, move_speed, start_time, has_start, is_over
     pygame.init()
     display = (800, 800)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -332,10 +336,14 @@ def init():
     invalid_move = False
     move_speed = int(sys.argv[1])
     write_grid()
+    start_time = time()
+    has_start = False
+    is_over = True
+
 
 def display_grid():
     global is_over, grid, cur_player, players, cubes_to_update, grid_updated, move_count, move_read, invalid_move, \
-        move_count, move_speed
+        move_count, move_speed, too_much_time, start_time, has_start
     glColor3f(1, 0, 0)
     glTranslatef(0.0, 0.0, -45)
 
@@ -354,10 +362,24 @@ def display_grid():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_SPACE:
+                    is_over = not is_over
+                    if move_count == 0:
+                        has_start = True
+
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         selected_cube = read_move()
         if not is_over and not move_read and selected_cube is not None:
+            end_time = time()
+            time_taken = end_time - start_time
+            hours, rest = divmod(time_taken,3600)
+            minutes, seconds = divmod(rest, 60)
+            print(seconds)
+            if seconds > 6:
+                is_over = True
+                too_much_time = True
             move_read = True
             move_count += 1
             if check_validity(selected_cube):
@@ -371,12 +393,13 @@ def display_grid():
         if not is_over and grid_updated and len(cubes_to_update) == 0:
             cur_player = 1 - cur_player
             write_grid()
+            start_time = time()
             grid_updated = False
             move_read = False
 
         draw_text((-5, 5.0, 30.0), "CHAIN REACTION", 32, (120, 120, 220, 255))
         draw_text((-5, 5.5, 30.0), "CSE Fest 2019 - AI Contest", 24, (120, 120, 220, 255))
-
+    
         if cur_player == 0:
             draw_text((-5, 4, 30.0), "Player 1's move", 24, (250, 10, 10, 255))
         else:
@@ -384,12 +407,22 @@ def display_grid():
         glColor3f(1-cur_player, cur_player, 0)
         draw_grid()
         draw_spheres()
+        if not has_start:
+            draw_text((-2, 1, 30.0), "Semi Final 1", 56, (120, 120, 220, 255))
+            #draw_text((-3, 1, 30.0), "Third Place Playoff", 56, (120, 120, 220, 255))
+            #draw_text((-2, 1, 30.0), "THE FINAL", 56, (120, 120, 220, 255))
+
+            draw_text((-6, 0, 30.0), "Lonely_Bot vs Night_Before_Submission", 56, (120, 120, 220, 255))
+            #draw_text((-5, 0, 30.0), "Wasted_Potential vs Megatron747", 56, (120, 120, 220, 255))
         if invalid_move:
             draw_text((-4, 1, 30.0), "Invalid Move by Player" + str(cur_player+1), 64, (120, 120, 220, 255))
             is_over = True
-
+        if too_much_time:
+            draw_text((-4.5, 1, 30.0), "Too much time taken by Player"  + str(cur_player+1), 64, (120, 120, 220, 255))
+            is_over = True
         if check_winner() != -1:
             draw_text((-2.5, 0, 30.0), "Player " + str(check_winner()+1)+" Wins", 64, (120, 120, 220, 255))
+            print(move_count)
             is_over = True
         pygame.display.flip()
         pygame.time.wait(10)

@@ -324,9 +324,9 @@ def init():
     move_read = False
     invalid_move = False
     move_speed = int(sys.argv[1])
-    p1 = subprocess.Popen(['python3', 'player_code.py', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+    p1 = subprocess.Popen(['./a.out', 'R'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                           universal_newlines=True, bufsize=1)
-    p2 = subprocess.Popen(['python3', 'player_code.py', 'G'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+    p2 = subprocess.Popen(['java','playerOne', 'G'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                           universal_newlines=True, bufsize=1)
     print('start', file=p1.stdin, flush=True)
     print('start', file=p2.stdin, flush=True)
